@@ -45,7 +45,7 @@ As an example, encryption can be done as follows:
     >>> eiv = msg[:CAST.block_size+2]
     >>> ciphertext = msg[CAST.block_size+2:]
     >>> cipher = CAST.new(key, CAST.MODE_OPENPGP, eiv)
-    >>> print cipher.decrypt(ciphertext)
+    >>> print(cipher.decrypt(ciphertext))
 
 .. _CAST-128: http://en.wikipedia.org/wiki/CAST-128
 .. _RFC2144: http://tools.ietf.org/html/rfc2144
@@ -120,4 +120,4 @@ MODE_OPENPGP = 7
 #: Size of a data block (in bytes)
 block_size = 8
 #: Size of a key (in bytes)
-key_size = xrange(5,16+1)
+key_size = range(5,16+1)

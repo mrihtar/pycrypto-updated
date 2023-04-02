@@ -47,9 +47,9 @@ the RSA key:
         >>> h = SHA.new(message)
         >>> verifier = PKCS1_v1_5.new(key)
         >>> if verifier.verify(h, signature):
-        >>>    print "The signature is authentic."
+        >>>    print("The signature is authentic.")
         >>> else:
-        >>>    print "The signature is not authentic."
+        >>>    print("The signature is not authentic.")
 
 :undocumented: __revision__, __package__
 

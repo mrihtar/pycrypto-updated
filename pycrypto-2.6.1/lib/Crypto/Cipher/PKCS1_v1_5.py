@@ -57,9 +57,9 @@ the RSA key:
         >>>
         >>> digest = SHA.new(message[:-dsize]).digest()
         >>> if digest==message[-dsize:]:                # Note how we DO NOT look for the sentinel
-        >>>     print "Encryption was correct."
+        >>>     print("Encryption was correct.")
         >>> else:
-        >>>     print "Encryption was not correct."
+        >>>     print("Encryption was not correct.")
 
 :undocumented: __revision__, __package__
 

@@ -82,5 +82,5 @@ def new(key, *args, **kwargs):
 #: Size of a data block (in bytes)
 block_size = 1
 #: Size of a key (in bytes)
-key_size = xrange(1,32+1)
+key_size = range(1,32+1)
 

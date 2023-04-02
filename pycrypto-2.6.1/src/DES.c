@@ -34,6 +34,7 @@
 #undef DES  /* this is needed because tomcrypt_custom.h defines DES to an empty string */
 
 #include <assert.h>
+#define PY_SSIZE_T_CLEAN
 #include "Python.h"
 
 typedef struct {

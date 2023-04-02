@@ -39,6 +39,7 @@ from Crypto.Util.py3compat import *
 
 try:
     import multiprocessing
+    multiprocessing.freeze_support()
 except ImportError:
     multiprocessing = None
 
@@ -63,7 +64,7 @@ class RNGForkTest(unittest.TestCase):
         # Regression test for CVE-2013-1445.  We had a bug where, under the
         # right conditions, two processes might see the same random sequence.
 
-        if sys.platform.startswith('win'):  # windows can't fork
+        if sys.platform.startswith(('win', 'Win')):  # windows can't fork
             assert not hasattr(os, 'fork')    # ... right?
             return
 
@@ -128,33 +129,34 @@ class RNGMultiprocessingForkTest(unittest.TestCase):
         # same as RNGForkTest, but less compatible with old versions of Python,
         # and a little easier to read.
 
-        n_procs = 5
-        manager = multiprocessing.Manager()
-        queues = [manager.Queue(1) for i in range(n_procs)]
+        if __name__ == '__main__':
+            n_procs = 5
+            manager = multiprocessing.Manager()
+            queues = [manager.Queue(1) for i in range(n_procs)]
 
-        # Reseed the pool
-        time.sleep(0.15)
-        Crypto.Random._UserFriendlyRNG._get_singleton().reinit()
-        Crypto.Random.get_random_bytes(1)
+            # Reseed the pool
+            time.sleep(0.15)
+            Crypto.Random._UserFriendlyRNG._get_singleton().reinit()
+            Crypto.Random.get_random_bytes(1)
 
-        # Start the child processes
-        pool = multiprocessing.Pool(processes=n_procs, initializer=Crypto.Random.atfork)
-        map_result = pool.map_async(_task_main, queues)
+            # Start the child processes
+            pool = multiprocessing.Pool(processes=n_procs, initializer=Crypto.Random.atfork)
+            map_result = pool.map_async(_task_main, queues)
 
-        # Get the results, ensuring that no pool processes are reused.
-        aa = [queues[i].get(30) for i in range(n_procs)]
-        bb = [queues[i].get(30) for i in range(n_procs)]
-        res = list(zip(aa, bb))
+            # Get the results, ensuring that no pool processes are reused.
+            aa = [queues[i].get(30) for i in range(n_procs)]
+            bb = [queues[i].get(30) for i in range(n_procs)]
+            res = list(zip(aa, bb))
 
-        # Shut down the pool
-        map_result.get(30)
-        pool.close()
-        pool.join()
+            # Shut down the pool
+            map_result.get(30)
+            pool.close()
+            pool.join()
 
-        # Check that the results are unique
-        if len(set(aa)) != len(aa) or len(set(res)) != len(res):
-            raise AssertionError("RNG output duplicated across fork():\n%s" %
-                                 (pprint.pformat(res),))
+            # Check that the results are unique
+            if len(set(aa)) != len(aa) or len(set(res)) != len(res):
+                raise AssertionError("RNG output duplicated across fork():\n%s" %
+                                     (pprint.pformat(res),))
 
 
 def get_tests(config={}):

@@ -26,7 +26,7 @@
 
 __revision__ = "$Id$"
 
-from common import dict     # For compatibility with Python 2.1 and 2.2
+#from Crypto.SelfTest.Cipher.common import dict     # For compatibility with Python 2.1 and 2.2
 
 import unittest
 from Crypto.Util.py3compat import *
@@ -109,7 +109,7 @@ class BufferOverflowTest(unittest.TestCase):
 
 def get_tests(config={}):
     from Crypto.Cipher import ARC2
-    from common import make_block_tests
+    from Crypto.SelfTest.Cipher.common import make_block_tests
 
     tests = make_block_tests(ARC2, "ARC2", test_data)
     tests.append(BufferOverflowTest())

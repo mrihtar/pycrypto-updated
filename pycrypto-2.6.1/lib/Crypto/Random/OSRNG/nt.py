@@ -25,8 +25,8 @@
 __revision__ = "$Id$"
 __all__ = ['WindowsRNG']
 
-import winrandom
-from rng_base import BaseRNG
+from Crypto.Random.OSRNG import winrandom
+from Crypto.Random.OSRNG.rng_base import BaseRNG
 
 class WindowsRNG(BaseRNG):
 

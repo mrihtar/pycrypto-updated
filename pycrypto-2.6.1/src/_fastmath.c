@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#define PY_SSIZE_T_CLEAN
 #include "Python.h"
 #include "pycrypto_compat.h"
 #include <longintrepr.h>				/* for conversions */
@@ -65,7 +66,8 @@ static int rabinMillerTest (mpz_t n, int rounds, PyObject *randfunc);
 static void
 longObjToMPZ (mpz_t m, PyLongObject * p)
 {
-	int size, i;
+	int i;
+	Py_ssize_t size;
 	long negative;
 	mpz_t temp, temp2;
 	mpz_init (temp);
@@ -108,12 +110,12 @@ mpzToLongObj (mpz_t m)
 {
 	/* borrowed from gmpy */
 #ifdef IS_PY3K
-	int size = (mpz_sizeinbase (m, 2) + PyLong_SHIFT - 1) / PyLong_SHIFT;
+	Py_ssize_t size = (mpz_sizeinbase (m, 2) + PyLong_SHIFT - 1) / PyLong_SHIFT;
 #else
-	int size = (mpz_sizeinbase (m, 2) + SHIFT - 1) / SHIFT;
+	Py_ssize_t size = (mpz_sizeinbase (m, 2) + SHIFT - 1) / SHIFT;
 #endif
 	int sgn;
-	int i;
+	Py_ssize_t i;
 	mpz_t temp;
 	PyLongObject *l = _PyLong_New (size);
 	if (!l)
@@ -661,7 +663,7 @@ dsaKey_has_private (dsaKey * key, PyObject * args)
 static int factorize_N_from_D(rsaKey *key)
 {
 	mpz_t ktot, t, a, k, cand, nminus1, cand2;
-	unsigned long cnt;
+	unsigned long long cnt;
 	int spotted;
 
 	mpz_init(ktot);
@@ -1272,12 +1274,12 @@ static int
 getRandomRange (mpz_t n, mpz_t lower_bound, mpz_t upper_bound,
 				PyObject *randfunc)
 {
-	size_t bits;
+	unsigned long int bits;
 	mpz_t range;
 	mpz_init (range);
 	mpz_sub (range, upper_bound, lower_bound);
 	mpz_sub_ui (range, range, 1);
-	bits = size (range);
+	bits = (unsigned long int)size (range);
 
 	do
 	{
@@ -1307,7 +1309,7 @@ sieve_field (char *field, unsigned long int field_size, mpz_t start)
 	for (i = 0; i < SIEVE_BASE_SIZE; ++i)
 	{
 		mpz_mod_ui (mpz_offset, start, sieve_base[i]);
-		offset = mpz_get_ui (mpz_offset);
+		offset = (unsigned int)mpz_get_ui (mpz_offset);
 		for (j = (sieve_base[i] - offset) % sieve_base[i]; j < field_size; j += sieve_base[i])
 		{
 			field[j] = 1;
@@ -1335,7 +1337,7 @@ static int
 rabinMillerTest (mpz_t n, int rounds, PyObject *randfunc)
 {
 	int base_was_tested;
-	unsigned long int i, j, b, composite, return_val=1;
+	unsigned long int i, j, b, r, composite, return_val=1;
 	mpz_t a, m, z, n_1, tmp;
 	mpz_t tested[MAX_RABIN_MILLER_ROUNDS];
 
@@ -1366,12 +1368,13 @@ rabinMillerTest (mpz_t n, int rounds, PyObject *randfunc)
 	mpz_init (m);
 	mpz_init (z);
 	mpz_sub_ui (n_1, n, 1);
-	b = mpz_scan1 (n_1, 0);
+	b = (unsigned long int)mpz_scan1 (n_1, 0);
 	mpz_fdiv_q_2exp (m, n_1, b);
 
-	if (mpz_fits_ulong_p (n) && (mpz_get_ui (n) - 2 < rounds))
-		rounds = mpz_get_ui (n) - 2;
-	for (i = 0; i < rounds; ++i)
+	r = (unsigned long int)rounds;
+	if (mpz_fits_ulong_p (n) && (mpz_get_ui (n) - 2 < (mpir_ui)rounds))
+		r = (unsigned long int)mpz_get_ui (n) - 2;
+	for (i = 0; i < r; ++i)
 	{
 		mpz_set_ui (tmp, 2);
 		do

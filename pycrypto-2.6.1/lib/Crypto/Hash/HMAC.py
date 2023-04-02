@@ -50,7 +50,7 @@ An example of possible usage is the following:
     >>> secret = b'Swordfish'
     >>> h = HMAC.new(secret)
     >>> h.update(b'Hello')
-    >>> print h.hexdigest()
+    >>> print(h.hexdigest())
 
 .. _RFC2104: http://www.ietf.org/rfc/rfc2104.txt
 .. _FIPS-198: http://csrc.nist.gov/publications/fips/fips198/fips-198a.pdf
@@ -98,7 +98,7 @@ class HMAC:
             A hash module or object instantiated from `Crypto.Hash`
         """
         if digestmod is None:
-            import MD5
+            from Crypto.Hash import MD5
             digestmod = MD5
 
         self.digestmod = digestmod

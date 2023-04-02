@@ -26,7 +26,7 @@
 
 __revision__ = "$Id$"
 
-from common import dict     # For compatibility with Python 2.1 and 2.2
+#from Crypto.SelfTest.Cipher.common import dict     # For compatibility with Python 2.1 and 2.2
 from Crypto.Util.py3compat import *
 from binascii import hexlify
 
@@ -322,7 +322,7 @@ test_data = [
 
 def get_tests(config={}):
     from Crypto.Cipher import DES3
-    from common import make_block_tests
+    from Crypto.SelfTest.Cipher.common import make_block_tests
     return make_block_tests(DES3, "DES3", test_data)
 
 if __name__ == '__main__':

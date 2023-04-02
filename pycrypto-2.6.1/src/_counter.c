@@ -25,6 +25,7 @@
 #include <assert.h>
 #include <stddef.h>
 #include <string.h>
+#define PY_SSIZE_T_CLEAN
 #include "Python.h"
 #include "pycrypto_compat.h"
 #include "_counter.h"
@@ -96,7 +97,7 @@ CounterObject_init(PCT_CounterObject *self, PyObject *args, PyObject *kwargs)
 
     /* Allocate new buffer */
     /* buf_size won't overflow because the length of each string will always be <= 0xffff */
-    self->buf_size = PyBytes_GET_SIZE(prefix) + PyBytes_GET_SIZE(suffix) + self->nbytes;
+    self->buf_size = (uint32_t)(PyBytes_GET_SIZE(prefix) + PyBytes_GET_SIZE(suffix) + self->nbytes);
     self->val = self->p = PyMem_Malloc(self->buf_size);
     if (self->val == NULL) {
         self->buf_size = 0;
@@ -570,7 +571,7 @@ init_counter(void)
     if (m == NULL)
         return NULL;
 
-	return m;
+    return m;
 #else
     m = Py_InitModule("_counter", module_methods);
     if (m == NULL)

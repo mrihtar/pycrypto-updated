@@ -42,6 +42,7 @@
  */
 
 #include <string.h>  
+#define PY_SSIZE_T_CLEAN
 #include "Python.h"
 
 #define MODULE_NAME _ARC2

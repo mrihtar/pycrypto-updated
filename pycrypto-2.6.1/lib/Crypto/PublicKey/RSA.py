@@ -288,7 +288,7 @@ class _RSAobj(pubkey.pubkey):
             self.implementation = RSAImplementation()
         t = []
         for k in self.keydata:
-            if not d.has_key(k):
+            if k not in d:
                 break
             t.append(d[k])
         self.key = self.implementation._math.rsa_construct(*tuple(t))
@@ -582,7 +582,7 @@ class RSAImplementation(object):
                     if privateKey.isType('OCTET STRING'):
                         return self._importKeyDER(privateKey.payload)
 
-        except ValueError, IndexError:
+        except (ValueError, IndexError):
             pass
 
         raise ValueError("RSA key format is not supported")

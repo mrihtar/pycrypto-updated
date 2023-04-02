@@ -25,7 +25,7 @@
 __revision__ = "$Id$"
 
 import sys
-if sys.version_info[0] is 2 and  sys.version_info[1] is 1:
+if sys.version_info[0] == 2 and sys.version_info[1] == 1:
     from Crypto.Util.py21compat import *
 from Crypto.Util.py3compat import *
 
@@ -35,7 +35,7 @@ from Crypto.Util.number import ceil_shift, exact_log2, exact_div
 from Crypto.Util import Counter
 from Crypto.Cipher import AES
 
-import SHAd256
+from Crypto.Random.Fortuna import SHAd256
 
 class AESGenerator(object):
     """The Fortuna "generator"
@@ -90,7 +90,7 @@ class AESGenerator(object):
         remainder = bytes & ((1<<20)-1)
 
         retval = []
-        for i in xrange(num_full_blocks):
+        for i in range(num_full_blocks):
             retval.append(self._pseudo_random_data(1<<20))
         retval.append(self._pseudo_random_data(remainder))
         
@@ -123,7 +123,7 @@ class AESGenerator(object):
             raise AssertionError("generator must be seeded before use")
         assert 0 <= num_blocks <= self.max_blocks_per_request
         retval = []
-        for i in xrange(num_blocks >> 12):      # xrange(num_blocks / 4096)
+        for i in range(num_blocks >> 12):      # range(num_blocks / 4096)
             retval.append(self._cipher.encrypt(self._four_kiblocks_of_zeros))
         remaining_bytes = (num_blocks & 4095) << self.block_size_shift  # (num_blocks % 4095) * self.block_size
         retval.append(self._cipher.encrypt(self._four_kiblocks_of_zeros[:remaining_bytes]))

@@ -96,9 +96,9 @@ verification, encryption, and decryption.
     >>> sig = key.sign(h,k)
     >>> ...
     >>> if key.verify(h,sig):
-    >>>     print "OK"
+    >>>     print("OK")
     >>> else:
-    >>>     print "Incorrect signature"
+    >>>     print("Incorrect signature")
 
 .. _DLP: http://www.cosic.esat.kuleuven.be/publications/talk-78.pdf
 .. _CDH: http://en.wikipedia.org/wiki/Computational_Diffie%E2%80%93Hellman_assumption

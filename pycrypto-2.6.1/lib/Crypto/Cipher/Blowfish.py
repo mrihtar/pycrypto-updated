@@ -117,5 +117,5 @@ MODE_OPENPGP = 7
 #: Size of a data block (in bytes)
 block_size = 8
 #: Size of a key (in bytes)
-key_size = xrange(4,56+1)
+key_size = range(4,56+1)
 

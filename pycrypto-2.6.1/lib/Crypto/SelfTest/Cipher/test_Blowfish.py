@@ -102,7 +102,7 @@ test_data = [
 
 def get_tests(config={}):
     from Crypto.Cipher import Blowfish
-    from common import make_block_tests
+    from Crypto.SelfTest.Cipher.common import make_block_tests
     return make_block_tests(Blowfish, "Blowfish", test_data)
 
 if __name__ == '__main__':

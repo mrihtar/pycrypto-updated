@@ -346,7 +346,7 @@ class PKCS1_PSS_Tests(unittest.TestCase):
         def testSign1(self):
                 for i in range(len(self._testData)):
                         # Build the key
-                        comps = [ long(rws(self._testData[i][0][x]),16) for x in ('n','e','d') ]
+                        comps = [ int(rws(self._testData[i][0][x]),16) for x in ('n','e','d') ]
                         key = MyKey(RSA.construct(comps))
                         # Hash function
                         h = self._testData[i][4].new()
@@ -364,7 +364,7 @@ class PKCS1_PSS_Tests(unittest.TestCase):
         def testVerify1(self):
                for i in range(len(self._testData)):
                         # Build the key
-                        comps = [ long(rws(self._testData[i][0][x]),16) for x in ('n','e') ]
+                        comps = [ int(rws(self._testData[i][0][x]),16) for x in ('n','e') ]
                         key = MyKey(RSA.construct(comps))
                         # Hash function
                         h = self._testData[i][4].new()

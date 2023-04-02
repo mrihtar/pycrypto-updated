@@ -27,7 +27,7 @@ It produces the 512 bit digest of a message.
     >>>
     >>> h = SHA512.new()
     >>> h.update(b'Hello')
-    >>> print h.hexdigest()
+    >>> print(h.hexdigest())
 
 *SHA* stands for Secure Hash Algorithm.
 

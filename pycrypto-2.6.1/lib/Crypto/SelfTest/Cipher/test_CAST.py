@@ -46,7 +46,7 @@ test_data = [
 
 def get_tests(config={}):
     from Crypto.Cipher import CAST
-    from common import make_block_tests
+    from Crypto.SelfTest.Cipher.common import make_block_tests
     return make_block_tests(CAST, "CAST", test_data)
 
 if __name__ == '__main__':

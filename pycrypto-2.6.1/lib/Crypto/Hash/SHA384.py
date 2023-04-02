@@ -27,7 +27,7 @@ It produces the 384 bit digest of a message.
     >>>
     >>> h = SHA384.new()
     >>> h.update(b'Hello')
-    >>> print h.hexdigest()
+    >>> print(h.hexdigest())
 
 *SHA* stands for Secure Hash Algorithm.
 

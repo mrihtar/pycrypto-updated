@@ -73,8 +73,8 @@ class _EntropyCollector(object):
         t = time.time()
         self._time_es.feed(struct.pack("@I", int(2**30 * (t - floor(t)))))
 
-        # Add the fractional part of time.clock()
-        t = time.clock()
+        # Add the fractional part of time.time()
+        t = time.time()
         self._clock_es.feed(struct.pack("@I", int(2**30 * (t - floor(t)))))
 
 
@@ -120,7 +120,7 @@ class _UserFriendlyRNG(object):
         """Return N bytes from the RNG."""
         if self.closed:
             raise ValueError("I/O operation on closed file")
-        if not isinstance(N, (long, int)):
+        if not isinstance(N, int):
             raise TypeError("an integer is required")
         if N < 0:
             raise ValueError("cannot read to end of infinite stream")

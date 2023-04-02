@@ -27,7 +27,7 @@ __all__ = ['PythonOSURandomRNG']
 
 import os
 
-from rng_base import BaseRNG
+from Crypto.Random.OSRNG.rng_base import BaseRNG
 
 class PythonOSURandomRNG(BaseRNG):
 

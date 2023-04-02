@@ -26,7 +26,7 @@ MD2 is specified in RFC1319_ and it produces the 128 bit digest of a message.
     >>>
     >>> h = MD2.new()
     >>> h.update(b'Hello')
-    >>> print h.hexdigest()
+    >>> print(h.hexdigest())
 
 MD2 stand for Message Digest version 2, and it was invented by Rivest in 1989.
 

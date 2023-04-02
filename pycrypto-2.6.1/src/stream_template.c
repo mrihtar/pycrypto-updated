@@ -33,6 +33,7 @@
 #include <string.h>
 #endif
 
+#define PY_SSIZE_T_CLEAN
 #include "Python.h"
 #include "pycrypto_compat.h"
 #include "modsupport.h"
@@ -100,7 +101,7 @@ ALGnew(PyObject *self, PyObject *args, PyObject *kwdict)
 {
 	unsigned char *key;
 	ALGobject * new;
-	int keylen;
+	Py_ssize_t keylen;
 
 	new = newALGobject();
 	if (!PyArg_ParseTupleAndKeywords(args, kwdict, "s#", kwlist, 
@@ -124,7 +125,7 @@ ALGnew(PyObject *self, PyObject *args, PyObject *kwdict)
 				"the null string (0 bytes long)");
 		return NULL;
 	}
-	stream_init(&(new->st), key, keylen);
+	stream_init(&(new->st), key, (int)keylen);
 	if (PyErr_Occurred())
 	{
 		Py_DECREF(new);
@@ -140,7 +141,7 @@ static PyObject *
 ALG_Encrypt(ALGobject *self, PyObject *args)
 {
 	unsigned char *buffer, *str;
-	int len;
+	Py_ssize_t len;
 	PyObject *result;
 
 	if (!PyArg_Parse(args, "s#", &str, &len))
@@ -149,7 +150,7 @@ ALG_Encrypt(ALGobject *self, PyObject *args)
 	{
 		return PyBytes_FromStringAndSize(NULL, 0);
 	}
-	buffer = malloc(len);
+	buffer = malloc((size_t)len);
 	if (buffer == NULL)
 	{
 		PyErr_SetString(PyExc_MemoryError, "No memory available in "
@@ -157,8 +158,8 @@ ALG_Encrypt(ALGobject *self, PyObject *args)
 		return NULL;
 	}
 	Py_BEGIN_ALLOW_THREADS;
-	memcpy(buffer, str, len);
-	stream_encrypt(&(self->st), buffer, len);
+	memcpy(buffer, str, (size_t)len);
+	stream_encrypt(&(self->st), buffer, (int)len);
 	Py_END_ALLOW_THREADS;
 	result = PyBytes_FromStringAndSize((char *)buffer, len);
 	free(buffer);
@@ -172,7 +173,7 @@ static PyObject *
 ALG_Decrypt(ALGobject *self, PyObject *args)
 {
 	unsigned char *buffer, *str;
-	int len;
+	Py_ssize_t len;
 	PyObject *result;
 
 	if (!PyArg_Parse(args, "s#", &str, &len))
@@ -181,7 +182,7 @@ ALG_Decrypt(ALGobject *self, PyObject *args)
 	{
 		return PyBytes_FromStringAndSize(NULL, 0);
 	}
-	buffer = malloc(len);
+	buffer = malloc((size_t)len);
 	if (buffer == NULL)
 	{
 		PyErr_SetString(PyExc_MemoryError, "No memory available in "
@@ -189,8 +190,8 @@ ALG_Decrypt(ALGobject *self, PyObject *args)
 		return NULL;
 	}
 	Py_BEGIN_ALLOW_THREADS;
-	memcpy(buffer, str, len);
-	stream_decrypt(&(self->st), buffer, len);
+	memcpy(buffer, str, (size_t)len);
+	stream_decrypt(&(self->st), buffer, (int)len);
 	Py_END_ALLOW_THREADS;
 	result = PyBytes_FromStringAndSize((char *)buffer, len);
 	free(buffer);

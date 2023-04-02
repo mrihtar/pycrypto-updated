@@ -70,7 +70,7 @@ test_data = [
 
 def get_tests(config={}):
     from Crypto.Cipher import ARC4
-    from common import make_stream_tests
+    from Crypto.SelfTest.Cipher.common import make_stream_tests
     return make_stream_tests(ARC4, "ARC4", test_data)
 
 if __name__ == '__main__':

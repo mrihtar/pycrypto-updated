@@ -26,7 +26,7 @@
 
 __revision__ = "$Id$"
 
-from common import dict     # For compatibility with Python 2.1 and 2.2
+#from Crypto.SelfTest.Hash.common import dict     # For compatibility with Python 2.1 and 2.2
 from Crypto.Util.py3compat import *
 
 # This is a list of (key, data, results, description) tuples.
@@ -204,7 +204,7 @@ hashlib_test_data = [
 def get_tests(config={}):
     global test_data
     from Crypto.Hash import HMAC, MD5, SHA as SHA1, SHA256
-    from common import make_mac_tests
+    from Crypto.SelfTest.Hash.common import make_mac_tests
     hashmods = dict(MD5=MD5, SHA1=SHA1, SHA256=SHA256, default=None)
     try:
         from Crypto.Hash import SHA224, SHA384, SHA512

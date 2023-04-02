@@ -68,9 +68,9 @@ verification.
     >>> sig = key.sign(h,k)
     >>> ...
     >>> if key.verify(h,sig):
-    >>>     print "OK"
+    >>>     print("OK")
     >>> else:
-    >>>     print "Incorrect signature"
+    >>>     print("Incorrect signature")
 
 .. _DSA: http://en.wikipedia.org/wiki/Digital_Signature_Algorithm
 .. _DLP: http://www.cosic.esat.kuleuven.be/publications/talk-78.pdf
@@ -219,7 +219,7 @@ class _DSAobj(pubkey.pubkey):
             self.implementation = DSAImplementation()
         t = []
         for k in self.keydata:
-            if not d.has_key(k):
+            if k not in d:
                 break
             t.append(d[k])
         self.key = self.implementation._math.dsa_construct(*tuple(t))

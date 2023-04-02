@@ -26,7 +26,7 @@ SHA-1_ produces the 160 bit digest of a message.
     >>>
     >>> h = SHA.new()
     >>> h.update(b'Hello')
-    >>> print h.hexdigest()
+    >>> print(h.hexdigest())
 
 *SHA* stands for Secure Hash Algorithm.
 

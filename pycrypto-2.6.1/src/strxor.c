@@ -21,6 +21,7 @@
  * SOFTWARE.
  * ===================================================================
  */
+#define PY_SSIZE_T_CLEAN
 #include "Python.h"
 #include <stddef.h>
 #include <assert.h>
@@ -28,7 +29,9 @@
 
 #include "pycrypto_compat.h"
 
+#if 0  // unused
 static const char rcsid[] = "$Id$";
+#endif
 
 /*
  * xor_strings - XOR two strings together to produce a third string

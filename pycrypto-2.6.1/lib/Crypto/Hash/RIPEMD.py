@@ -26,7 +26,7 @@ RIPEMD-160_ produces the 160 bit digest of a message.
     >>>
     >>> h = RIPEMD.new()
     >>> h.update(b'Hello')
-    >>> print h.hexdigest()
+    >>> print(h.hexdigest())
 
 RIPEMD-160 stands for RACE Integrity Primitives Evaluation Message Digest
 with a 160 bit digest. It was invented by Dobbertin, Bosselaers, and Preneel.

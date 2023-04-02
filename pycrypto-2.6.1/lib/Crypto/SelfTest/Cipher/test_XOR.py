@@ -61,7 +61,7 @@ class TruncationSelfTest(unittest.TestCase):
 def get_tests(config={}):
     global XOR
     from Crypto.Cipher import XOR
-    from common import make_stream_tests
+    from Crypto.SelfTest.Cipher.common import make_stream_tests
     return make_stream_tests(XOR, "XOR", test_data) + [TruncationSelfTest()]
 
 if __name__ == '__main__':

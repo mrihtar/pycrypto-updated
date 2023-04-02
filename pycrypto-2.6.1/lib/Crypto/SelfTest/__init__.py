@@ -32,7 +32,7 @@ __revision__ = "$Id$"
 
 import sys
 import unittest
-from StringIO import StringIO
+from io import StringIO
 
 class SelfTestError(Exception):
     def __init__(self, message, result):

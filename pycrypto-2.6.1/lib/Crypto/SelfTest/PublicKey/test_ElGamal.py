@@ -187,17 +187,17 @@ class ElGamalTest(unittest.TestCase):
     def _exercise_primitive(self, elgObj):
         # Test encryption/decryption
         plaintext = b("Test")
-        ciphertext = elgObj.encrypt(plaintext, 123456789L)
+        ciphertext = elgObj.encrypt(plaintext, 123456789)
         plaintextP = elgObj.decrypt(ciphertext)
         self.assertEquals(plaintext, plaintextP)
 
         # Test signature/verification
-        signature = elgObj.sign(plaintext, 987654321L)
+        signature = elgObj.sign(plaintext, 987654321)
         elgObj.verify(plaintext, signature)
 
     def _exercise_public_primitive(self, elgObj):
         plaintext = b("Test")
-        ciphertext = elgObj.encrypt(plaintext, 123456789L)
+        ciphertext = elgObj.encrypt(plaintext, 123456789)
 
 def get_tests(config={}):
     tests = []

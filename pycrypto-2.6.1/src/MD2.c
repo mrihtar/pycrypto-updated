@@ -28,6 +28,7 @@
   
 
 #include <string.h>
+#define PY_SSIZE_T_CLEAN
 #include "Python.h"
 #include "pycrypto_compat.h"
 
@@ -41,10 +42,12 @@
  * 			digestAlgorithm(2) 2
  * 			}
  */
+#if 0  // unused
 static const char md2_oid[] = { 0x06, 0x08, 0x2a, 0x86, 0x48, 0x86, 0xf7, 0x0d, 0x02, 0x02 };
 
 #define DER_OID 		((void*)&md2_oid)
 #define DER_OID_SIZE		(sizeof md2_oid)
+#endif
 
 typedef unsigned char U8;
 typedef unsigned int U32;
@@ -98,7 +101,7 @@ static void hash_update (hash_state *self, const U8 *buf, U32 len)
 	U32 L;
 	while (len) 
 	{
-		L=(16-self->count) < len ? (16-self->count) : len;
+		L=(U32)(16-self->count) < len ? (U32)(16-self->count) : len;
 		memcpy(self->buf+self->count, buf, L);
 		self->count+=L;
 		buf+=L;
@@ -134,7 +137,7 @@ hash_digest (const hash_state *self)
 	U8 padding[16];
 	U32 padlen;
 	hash_state temp;
-	int i;
+	U32 i;
   
 	memcpy(&temp, self, sizeof(hash_state));
 	padlen= 16-self->count;

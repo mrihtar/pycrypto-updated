@@ -60,7 +60,7 @@ test_data = [
 
 def get_tests(config={}):
     from Crypto.Hash import RIPEMD
-    from common import make_hash_tests
+    from Crypto.SelfTest.Hash.common import make_hash_tests
     return make_hash_tests(RIPEMD, "RIPEMD", test_data,
         digest_size=20,
         oid="\x06\x05\x2b\x24\x03\02\x01")

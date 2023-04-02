@@ -24,6 +24,7 @@
 #ifndef PCT__COUNTER_H
 #define PCT__COUNTER_H
 
+#define PY_SSIZE_T_CLEAN
 #include "config.h"
 #if HAVE_STDINT_H
 # include <stdint.h>

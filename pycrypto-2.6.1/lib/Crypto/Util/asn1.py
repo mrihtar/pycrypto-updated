@@ -23,6 +23,7 @@
 from Crypto.Util.number import long_to_bytes, bytes_to_long
 import sys
 from Crypto.Util.py3compat import *
+from functools import reduce
 
 __all__ = [ 'DerObject', 'DerInteger', 'DerOctetString', 'DerNull', 'DerSequence', 'DerObjectId' ]
 
@@ -185,9 +186,12 @@ class DerSequence(DerObject):
         def append(self, item):
                 return self._seq.append(item)
 
+        def ilen(self, iterable):
+                return reduce(lambda sum, element: sum + 1, iterable, 0)
+
         def hasInts(self):
                 """Return the number of items in this sequence that are numbers."""
-                return len(filter(isInt, self._seq))
+                return self.ilen(filter(isInt, self._seq))
 
         def hasOnlyInts(self):
                 """Return True if all items in this sequence are numbers."""

@@ -30,6 +30,7 @@
 #ifdef _HAVE_STDC_HEADERS
 #include <string.h>
 #endif
+#define PY_SSIZE_T_CLEAN
 #include "Python.h"
 #include "pycrypto_compat.h"
 
@@ -124,7 +125,8 @@ ALG_hexdigest(ALGobject *self, PyObject *args)
 {
 	PyObject *value, *retval;
 	unsigned char *raw_digest, *hex_digest;
-	int i, j, size;
+	int i, j;
+	Py_ssize_t size;
 
 	if (!PyArg_ParseTuple(args, ""))
 		return NULL;
@@ -163,14 +165,14 @@ static PyObject *
 ALG_update(ALGobject *self, PyObject *args)
 {
 	unsigned char *cp;
-	int len;
+	Py_ssize_t len;
 
 	if (!PyArg_ParseTuple(args, "s#", &cp, &len))
 		return NULL;
 
 	Py_BEGIN_ALLOW_THREADS;
 
-	hash_update(&(self->st), cp, len);
+	hash_update(&(self->st), cp, (int)len);
 	Py_END_ALLOW_THREADS;
 
 	Py_INCREF(Py_None);
@@ -273,7 +275,7 @@ ALG_new(PyObject *self, PyObject *args)
 {
         ALGobject *new;
 	unsigned char *cp = NULL;
-	int len;
+	Py_ssize_t len;
 	
 	if ((new = newALGobject()) == NULL)
 		return NULL;
@@ -292,7 +294,7 @@ ALG_new(PyObject *self, PyObject *args)
 	}
 	if (cp) {
 		Py_BEGIN_ALLOW_THREADS;
-		hash_update(&(new->st), cp, len);
+		hash_update(&(new->st), cp, (int)len);
 		Py_END_ALLOW_THREADS;
 	}
 

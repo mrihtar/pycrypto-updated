@@ -49,9 +49,9 @@ the RSA key:
     >>> h.update(message)
     >>> verifier = PKCS1_PSS.new(key)
     >>> if verifier.verify(h, signature):
-    >>>     print "The signature is authentic."
+    >>>     print("The signature is authentic.")
     >>> else:
-    >>>     print "The signature is not authentic."
+    >>>     print("The signature is not authentic.")
 
 :undocumented: __revision__, __package__
 
@@ -201,7 +201,7 @@ class PSS_SigScheme:
 def MGF1(mgfSeed, maskLen, hash):
     """Mask Generation Function, described in B.2.1"""
     T = b("")
-    for counter in xrange(ceil_div(maskLen, hash.digest_size)):
+    for counter in range(ceil_div(maskLen, hash.digest_size)):
         c = long_to_bytes(counter, 4)
         T = T + hash.new(mgfSeed + c).digest()
     assert(len(T)>=maskLen)
@@ -241,7 +241,7 @@ def EMSA_PSS_ENCODE(mhash, emBits, randFunc, mgf, sLen):
 
     # Bitmask of digits that fill up
     lmask = 0
-    for i in xrange(8*emLen-emBits):
+    for i in range(8*emLen-emBits):
         lmask = lmask>>1 | 0x80
 
     # Step 1 and 2 have been already done
@@ -299,7 +299,7 @@ def EMSA_PSS_VERIFY(mhash, em, emBits, mgf, sLen):
 
     # Bitmask of digits that fill up
     lmask = 0
-    for i in xrange(8*emLen-emBits):
+    for i in range(8*emLen-emBits):
         lmask = lmask>>1 | 0x80
 
     # Step 1 and 2 have been already done
